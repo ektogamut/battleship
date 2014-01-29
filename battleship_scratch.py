@@ -63,6 +63,7 @@ def generate_ship(ship):
             inc_y = y + position*prop
             board[x][inc_y]['ship'] = ship['name']
 
+
 def in_sea(ship):
     x = ship['origin'][0]
     y = ship['origin'][1]
@@ -88,14 +89,14 @@ def ship_collide(ship):
     if ship['vertical']:
         for position in range(1, length):
             inc_x = x + position*prop
-            if 'ship' in board[inc_x][y] and board[inc_x][y]['ship'] != ship['name']:
+            if 'ship' in board[inc_x][y]: # and board[inc_x][y]['ship'] != ship['name']:
                 return True
         else:
             return False
     else:
         for position in range(1, length):
             inc_y = y + position*prop
-            if 'ship' in board[x][inc_y] and board[x][inc_y]['ship'] != ship['name']:
+            if 'ship' in board[x][inc_y]: # and board[x][inc_y]['ship'] != ship['name']:
                 return True
         else:
             return False
