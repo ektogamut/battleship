@@ -10,6 +10,7 @@ def place_board(edge):
             board[i].append({'hit': False})
     return board
 
+
 board = place_board(6)
 #
 # print 'Let's play Battleship!'
@@ -109,6 +110,7 @@ def board_position(ship):
 
 
 def place_ship(ship):
+def seed_ship(ship):
     if ship in ships:
         ship['origin'] = [random_row(board), random_col(board)]
         ship['vertical'] = choice([True, False])
