@@ -21,21 +21,21 @@ patrol = {'name': 'Patrol',
           'length': 2,
           'vertical': False,
           'propagate': -1,
-          'hit': False}
+          }
 
 destroyer = {'name': 'Destroyer',
              'origin': [],
              'length': 3,
              'vertical': False,
              'propagate': -1,
-             'hit': False}
+             }
 
 battleship = {'name': 'Battleship',
               'origin': [],
               'length': 4,
               'vertical': False,
               'propagate': -1,
-              'hit': False}
+              }
 
 ships = [patrol, destroyer, battleship]
 
