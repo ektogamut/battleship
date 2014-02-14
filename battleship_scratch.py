@@ -60,14 +60,13 @@ def generate_ship(ship):
     x = ship['origin'][0]
     y = ship['origin'][1]
     length = ship['length']
-    prop = ship['propagate']
     if ship['vertical']:
         for position in range(0, length):
-            inc_x = x + position * prop
+            inc_x = x + position
             board[inc_x][y]['ship'] = ship['name']
     else:
         for position in range(0, length):
-            inc_y = y + position * prop
+            inc_y = y + position
             board[x][inc_y]['ship'] = ship['name']
 
 #
@@ -92,17 +91,16 @@ def ship_collide(ship):
     x = ship['origin'][0]
     y = ship['origin'][1]
     length = ship['length']
-    prop = ship['propagate']
     if ship['vertical']:
         for position in range(0, length):
-            inc_x = x + position * prop
+            inc_x = x + position
             if 'ship' in board[inc_x][y] and board[inc_x][y]['ship'] != ship['name']:
                 return True
         else:
             return False
     else:
         for position in range(0, length):
-            inc_y = y + position * prop
+            inc_y = y + position
             if 'ship' in board[x][inc_y] and board[x][inc_y]['ship'] != ship['name']:
                 return True
         else:
@@ -116,20 +114,17 @@ def board_position(ship):
 
 
 def is_real(ship):
-    if in_sea(ship) is True:
-        if ship_collide(ship) is True:
-            return False
-        else:
-            return True
-    else:
+    if ship_collide(ship) is True:
         return False
+    else:
+        return True
 
 
 def seed_ship(ship):
     if ship in ships:
         ship['origin'] = [random_row(board), random_col(board)]
         ship['vertical'] = choice([True, False])
-        ship['propagate'] = choice([-1, 1])
+
 
 
 def place_ship(ship):
@@ -145,7 +140,7 @@ place_ship(destroyer)
 place_ship(patrol)
 print "battleship info: ", battleship
 print "destroyer info: ", destroyer
-print in_sea(destroyer), ship_collide(destroyer), is_real(destroyer)
+print ship_collide(destroyer), is_real(destroyer)
 
 for row in board:
     print row
