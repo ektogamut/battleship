@@ -56,40 +56,8 @@ def random_col(board, ship):
 
 
 def seed_ship(ship):
-    if ship in ships:
-        ship['vertical'] = choice([True, False])
-        ship['origin'] = [random_row(board, ship), random_col(board, ship)]
-
-
-def generate_ship(ship):
-    origin_row = ship['origin'][0]
-    origin_col = ship['origin'][1]
-    length = ship['length']
-    if ship['vertical']:
-        for position in range(0, length):
-            inc_row = origin_row + position
-            board[inc_row][origin_col]['ship'] = ship['name']
-    else:
-        for position in range(0, length):
-            inc_col = origin_col + position
-            board[origin_row][inc_col]['ship'] = ship['name']
-
-#
-# def in_sea(ship):
-#     origin_row = ship['origin'][0]
-#     y = ship['origin'][1]
-#     length = ship['length'] - 1
-#     prop = ship['propagate']
-#     if ship['vertical']:
-#         if (origin_row + length * prop < 0) or (origin_row + length * prop > len(board) - 1):
-#             return False
-#         else:
-#             return True
-#     else:
-#         if (y + length * prop < 0) or (y + length * prop > len(board[0]) - 1):
-#             return False
-#         else:
-#             return True
+    ship['vertical'] = choice([True, False])
+    ship['origin'] = [random_row(board, ship), random_col(board, ship)]
 
 
 def ship_collide(ship):
@@ -112,10 +80,18 @@ def ship_collide(ship):
             return False
 
 
-# def board_position(ship):
-#     x = ship['origin'][0]
-#     y = ship['origin'][1]
-#     return board[x][y]
+def generate_ship(ship):
+    origin_row = ship['origin'][0]
+    origin_col = ship['origin'][1]
+    length = ship['length']
+    if ship['vertical']:
+        for position in range(0, length):
+            inc_row = origin_row + position
+            board[inc_row][origin_col]['ship'] = ship['name']
+    else:
+        for position in range(0, length):
+            inc_col = origin_col + position
+            board[origin_row][inc_col]['ship'] = ship['name']
 
 
 def place_ship(ship):
