@@ -20,32 +20,39 @@ patrol = {'name': 'Patrol',
           'origin': [],
           'length': 2,
           'vertical': False,
-          'propagate': -1,
           }
 
 destroyer = {'name': 'Destroyer',
              'origin': [],
              'length': 3,
              'vertical': False,
-             'propagate': -1,
              }
 
 battleship = {'name': 'Battleship',
               'origin': [],
               'length': 4,
               'vertical': False,
-              'propagate': -1,
               }
 
 ships = [patrol, destroyer, battleship]
 
 
-def random_row(board):
-    return randint(0, len(board) - 1)
+def random_row(board, ship):
+    length = ship['length']
+    board_row_length = len(board)
+    if ship['vertical']:
+        return randint(0, board_row_length)
+    else:
+        return randint(0, board_row_length - length)
 
 
-def random_col(board):
-    return randint(0, len(board[0]) - 1)
+def random_col(board, ship):
+    length = ship['length']
+    board_col_length = len(board[0])
+    if ship['vertical']:
+        return randint(0, board_col_length)
+    else:
+        return randint(0, board_col_length - length)
 
 
 #propagates from an already defined origin
@@ -63,22 +70,22 @@ def generate_ship(ship):
             inc_y = y + position * prop
             board[x][inc_y]['ship'] = ship['name']
 
-
-def in_sea(ship):
-    x = ship['origin'][0]
-    y = ship['origin'][1]
-    length = ship['length'] - 1
-    prop = ship['propagate']
-    if ship['vertical']:
-        if (x + length * prop < 0) or (x + length * prop > len(board) - 1):
-            return False
-        else:
-            return True
-    else:
-        if (y + length * prop < 0) or (y + length * prop > len(board[0]) - 1):
-            return False
-        else:
-            return True
+#
+# def in_sea(ship):
+#     x = ship['origin'][0]
+#     y = ship['origin'][1]
+#     length = ship['length'] - 1
+#     prop = ship['propagate']
+#     if ship['vertical']:
+#         if (x + length * prop < 0) or (x + length * prop > len(board) - 1):
+#             return False
+#         else:
+#             return True
+#     else:
+#         if (y + length * prop < 0) or (y + length * prop > len(board[0]) - 1):
+#             return False
+#         else:
+#             return True
 
 
 def ship_collide(ship):
@@ -161,3 +168,5 @@ def print_board(board):
 
 
 print_board(board)
+
+
