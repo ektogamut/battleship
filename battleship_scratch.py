@@ -41,42 +41,47 @@ def random_row(board, ship):
     length = ship['length']
     board_row_length = len(board)
     if ship['vertical']:
-        return randint(0, board_row_length)
-    else:
         return randint(0, board_row_length - length)
+    else:
+        return randint(0, board_row_length - 1)
 
 
 def random_col(board, ship):
     length = ship['length']
     board_col_length = len(board[0])
     if ship['vertical']:
-        return randint(0, board_col_length)
+        return randint(0, board_col_length - 1)
     else:
         return randint(0, board_col_length - length)
 
 
-#propagates from an already defined origin
+def seed_ship(ship):
+    if ship in ships:
+        ship['vertical'] = choice([True, False])
+        ship['origin'] = [random_row(board, ship), random_col(board, ship)]
+
+
 def generate_ship(ship):
-    x = ship['origin'][0]
-    y = ship['origin'][1]
+    origin_row = ship['origin'][0]
+    origin_col = ship['origin'][1]
     length = ship['length']
     if ship['vertical']:
         for position in range(0, length):
-            inc_x = x + position
-            board[inc_x][y]['ship'] = ship['name']
+            inc_row = origin_row + position
+            board[inc_row][origin_col]['ship'] = ship['name']
     else:
         for position in range(0, length):
-            inc_y = y + position
-            board[x][inc_y]['ship'] = ship['name']
+            inc_col = origin_col + position
+            board[origin_row][inc_col]['ship'] = ship['name']
 
 #
 # def in_sea(ship):
-#     x = ship['origin'][0]
+#     origin_row = ship['origin'][0]
 #     y = ship['origin'][1]
 #     length = ship['length'] - 1
 #     prop = ship['propagate']
 #     if ship['vertical']:
-#         if (x + length * prop < 0) or (x + length * prop > len(board) - 1):
+#         if (origin_row + length * prop < 0) or (origin_row + length * prop > len(board) - 1):
 #             return False
 #         else:
 #             return True
@@ -88,51 +93,38 @@ def generate_ship(ship):
 
 
 def ship_collide(ship):
-    x = ship['origin'][0]
-    y = ship['origin'][1]
+    origin_row = ship['origin'][0]
+    origin_col = ship['origin'][1]
     length = ship['length']
     if ship['vertical']:
         for position in range(0, length):
-            inc_x = x + position
-            if 'ship' in board[inc_x][y] and board[inc_x][y]['ship'] != ship['name']:
+            inc_row = origin_row + position
+            if 'ship' in board[inc_row][origin_col] and board[inc_row][origin_col]['ship'] != ship['name']:
                 return True
         else:
             return False
     else:
         for position in range(0, length):
-            inc_y = y + position
-            if 'ship' in board[x][inc_y] and board[x][inc_y]['ship'] != ship['name']:
+            inc_col = origin_col + position
+            if 'ship' in board[origin_row][inc_col] and board[origin_row][inc_col]['ship'] != ship['name']:
                 return True
         else:
             return False
 
 
-def board_position(ship):
-    x = ship['origin'][0]
-    y = ship['origin'][1]
-    return board[x][y]
-
-
-def is_real(ship):
-    if ship_collide(ship) is True:
-        return False
-    else:
-        return True
-
-
-def seed_ship(ship):
-    if ship in ships:
-        ship['origin'] = [random_row(board), random_col(board)]
-        ship['vertical'] = choice([True, False])
-
+# def board_position(ship):
+#     x = ship['origin'][0]
+#     y = ship['origin'][1]
+#     return board[x][y]
 
 
 def place_ship(ship):
     seed_ship(ship)
-    while is_real(ship) is False:
+    while ship_collide(ship) is True:
         seed_ship(ship)
     else:
         generate_ship(ship)
+
 
 
 place_ship(battleship)
@@ -140,10 +132,7 @@ place_ship(destroyer)
 place_ship(patrol)
 print "battleship info: ", battleship
 print "destroyer info: ", destroyer
-print ship_collide(destroyer), is_real(destroyer)
-
-for row in board:
-    print row
+print ship_collide(destroyer)
 
 
 def print_board(board):
@@ -163,5 +152,5 @@ def print_board(board):
 
 
 print_board(board)
-
+#
 
